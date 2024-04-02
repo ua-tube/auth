@@ -23,10 +23,11 @@ import { ConfigService } from '@nestjs/config';
           ignoreExpiration: false,
           issuer: configService.get<string>('JWT_ISSUER'),
           audience: configService.get<string>('JWT_AUDIENCE'),
-        }
+        },
       }),
     }),
-    PrismaModule],
+    PrismaModule,
+  ],
   controllers: [AuthController, HealthController],
   providers: [AuthService, TokenService, JwtAtStrategy, JwtRtStrategy],
 })

@@ -96,7 +96,7 @@ export class AuthController {
       );
 
       this.authService.setCookies(sessionId, tokens.refreshToken, res);
-      return { accessToken: tokens.accessToken }
+      return { accessToken: tokens.accessToken };
     } catch {
       this.authService.removeCookies(res);
       throw new UnauthorizedException();

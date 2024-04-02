@@ -25,17 +25,17 @@ async function bootstrap() {
   app.use(helmet.noSniff());
   app.use(helmet.hidePoweredBy());
   app.use(helmet.contentSecurityPolicy());
-
   app.use(cookieParser());
   app.use(mw());
 
   app.setGlobalPrefix('/api');
-
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.enableShutdownHooks();
 
   await app.listen(
     configService.get<number>('HTTP_PORT'),
     configService.get<string>('HTTP_HOST'),
   );
 }
+
 bootstrap();
