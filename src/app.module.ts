@@ -4,6 +4,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import Joi from 'joi';
 import { AuthModule } from './auth/auth.module';
 import { LoggingInterceptor } from './common/interceptors';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LoggingInterceptor } from './common/interceptors';
       }),
     }),
     AuthModule,
+    HealthModule
   ],
   providers: [
     {

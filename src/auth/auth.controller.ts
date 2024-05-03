@@ -14,16 +14,16 @@ import {
   CurrentSessionId,
   CurrentUser,
   IpUserAgentHeaders,
-} from '../../common/decorators';
+} from '../common/decorators';
 import {
   CreateRecoveryTokenDto,
   LoginDto,
   ResetPasswordDto,
   SignupDto,
-} from '../dto';
-import { AuthGuard, RefreshGuard } from '../guards';
-import { AuthService } from '../services';
-import { JwtPayload } from '../types';
+} from './dto';
+import { AuthGuard, RefreshGuard } from './guards';
+import { AuthService } from './services';
+import { JwtPayload } from './types';
 
 @Controller('auth')
 export class AuthController {
