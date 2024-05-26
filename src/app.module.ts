@@ -24,7 +24,7 @@ import { HealthModule } from './health/health.module';
       }),
     }),
     AuthModule,
-    HealthModule
+    HealthModule,
   ],
   providers: [
     {
