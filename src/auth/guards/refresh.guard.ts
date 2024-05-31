@@ -16,7 +16,7 @@ export class RefreshGuard implements CanActivate {
     const req: Request = ctx.switchToHttp().getRequest();
 
     const token = req.cookies['refresh_token'] || '';
-    if (isEmpty(token)) throw new UnauthorizedException();
+    if (isEmpty(token)) throw new UnauthorizedException({ code: 0 });
 
     await this.tokenService.verifyRefreshToken(token);
 

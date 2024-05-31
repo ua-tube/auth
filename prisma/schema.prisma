@@ -13,8 +13,8 @@ model User {
   password      String
   createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime       @updatedAt @map("updated_at") @db.Timestamp(6)
-  UserSession   UserSession[]
-  RecoveryToken RecoveryToken?
+  userSession   UserSession[]
+  recoveryToken RecoveryToken?
 
   @@map("users")
 }
@@ -25,7 +25,7 @@ model UserSession {
   userAgent    String @map("user_agent")
   refreshToken String @map("refresh_token")
   userId       String @map("user_id") @db.Uuid
-  User         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userAgent, userId])
   @@index([userId], type: Hash)
@@ -36,7 +36,7 @@ model RecoveryToken {
   id        String   @id @default(uuid()) @db.Uuid
   tokenHash String   @map("token_hash")
   userId    String   @unique @map("user_id") @db.Uuid
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime @map("expires_at") @db.Timestamp(6)
 
   @@map("recovery_tokens")

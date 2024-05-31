@@ -52,6 +52,9 @@ export class AuthService {
   }
 
   async logout(userId: string, sessionId: string, refreshToken: string) {
+    if (!sessionId || !userId)
+      throw new BadRequestException('Invalid session id');
+
     const session = await this.prisma.userSession.findUnique({
       where: { id: sessionId, userId },
     });
@@ -67,7 +70,7 @@ export class AuthService {
       select: {
         id: true,
         refreshToken: true,
-        User: { select: { id: true, email: true } },
+        user: { select: { id: true, email: true } },
       },
     });
 
@@ -76,7 +79,7 @@ export class AuthService {
       throw new UnauthorizedException();
 
     const tokens = await this.tokenService.generateTokens(
-      { id: session.User.id, email: session.User.email },
+      { id: session.user.id, email: session.user.email },
       session.id,
     );
 
@@ -165,6 +168,8 @@ export class AuthService {
     const cookieConfig: CookieOptions = {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
+      sameSite: 'none',
+      secure: true
     };
 
     res.cookie('_app_ssid', sessionId, cookieConfig);
@@ -188,17 +193,17 @@ export class AuthService {
     const session = await this.prisma.userSession.upsert({
       where: {
         userAgent_userId: {
-          userAgent,
+          userAgent: userAgent || '',
           userId: userInfo.id,
         },
       },
       create: {
         userId: userInfo.id,
         refreshToken: '',
-        userAgent,
-        ip,
+        userAgent: userAgent || '',
+        ip: ip || '',
       },
-      update: { ip },
+      update: { ip: ip || '' },
     });
     try {
       const tokens = await this.tokenService.generateTokens(

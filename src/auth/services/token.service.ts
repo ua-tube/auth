@@ -30,7 +30,7 @@ export class TokenService {
     try {
       return this.jwtService.verifyAsync(token);
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException({ code: 3 });
     }
   }
 
@@ -41,7 +41,7 @@ export class TokenService {
         secret: this.configService.get<string>('JWT_RT_SECRET'),
       });
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException({ code: 4 });
     }
   }
 }
